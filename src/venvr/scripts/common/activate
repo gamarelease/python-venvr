@@ -1,0 +1,95 @@
+
+# The segment below was added by python-venvr.
+
+deactivate_r () {
+    unset R_HOME R_ENVIRON R_LIBS_SITE R_LIBS_USER RETICULATE_PYTHON
+    # reset old environment variables
+    if [ -n "${_OLD_VIRTUAL_R_HOME:-}" ] ; then
+        R_HOME="${_OLD_VIRTUAL_R_HOME:-}"
+        export R_HOME
+        unset _OLD_VIRTUAL_R_HOME
+    fi
+    if [ -n "${_OLD_VIRTUAL_R_ENVIRON:-}" ] ; then
+        R_ENVIRON="${_OLD_VIRTUAL_R_ENVIRON:-}"
+        export R_ENVIRON
+        unset _OLD_VIRTUAL_R_ENVIRON
+    fi
+    if [ -n "${_OLD_VIRTUAL_R_LIBS_SITE:-}" ] ; then
+        R_LIBS_SITE="${_OLD_VIRTUAL_R_LIBS_SITE:-}"
+        export R_LIBS_SITE
+        unset _OLD_VIRTUAL_R_LIBS_SITE
+    fi
+    if [ -n "${_OLD_VIRTUAL_R_LIBS_USER:-}" ] ; then
+        R_LIBS_USER="${_OLD_VIRTUAL_R_LIBS_USER:-}"
+        export R_LIBS_USER
+        unset _OLD_VIRTUAL_R_LIBS_USER
+    fi
+    if [ -n "${_OLD_VIRTUAL_RETICULATE_PYTHON:-}" ] ; then
+        RETICULATE_PYTHON="${_OLD_VIRTUAL_RETICULATE_PYTHON:-}"
+        export RETICULATE_PYTHON
+        unset _OLD_VIRTUAL_RETICULATE_PYTHON
+    fi
+
+    # rehash commands
+    if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+        hash -r 2> /dev/null
+    fi
+
+    if [ ! "${1:-}" = "nondestructive" ] ; then
+    # Self destruct!
+        unset -f deactivate_r
+    fi
+}
+
+# unset irrelevant variables
+deactivate_r nondestructive
+
+# save R environment variables
+if [ -n "${R_HOME:-}" ] ; then
+    _OLD_VIRTUAL_R_HOME="$R_HOME"
+fi
+if [ -n "${R_ENVIRON:-}" ] ; then
+    _OLD_VIRTUAL_R_ENVIRON="$R_ENVIRON"
+fi
+if [ -n "${R_LIBS_SITE:-}" ] ; then
+    _OLD_VIRTUAL_R_LIBS_SITE="$R_LIBS_SITE"
+fi
+if [ -n "${R_LIBS_USER:-}" ] ; then
+    _OLD_VIRTUAL_R_LIBS_USER="$R_LIBS_USER"
+fi
+if [ -n "${R_RETICULATE_PYTHON:-}" ] ; then
+    _OLD_VIRTUAL_R_RETICULATE_PYTHON="$R_RETICULATE_PYTHON"
+fi
+
+# point reticulate and rpy2 to the correct binaries
+R_HOME="__VENVR_R_HOME__"
+RETICULATE_PYTHON="$VIRTUAL_ENV/__VENV_BIN_NAME__/__VENVR_PY_EXEC__"
+
+# point R path variables to the local library
+r_libpath="$VIRTUAL_ENV/__VENVR_LIB_NAME__/R%v"
+if __VENVR_SYSTEM_PACKAGES__ ; then
+    # access system packages
+    R_LIBS_SITE="$r_libpath:${R_LIBS_SITE:-%S}"
+    # prepend in R_LIBS_USER for it to be the default library
+    R_LIBS_USER="$r_libpath:${R_LIBS_USER:-%U}"
+else
+    # isolated environment
+    R_LIBS_SITE="$r_libpath"
+    # repeat in R_LIBS_USER to disable default path
+    R_LIBS_USER="$r_libpath"
+    # overwrite R_ENVIRON, which may modify R_LIBS_SITE
+    R_ENVIRON="/dev/null"
+    export R_ENVIRON
+fi
+unset r_libpath
+export R_HOME R_LIBS_SITE R_LIBS_USER RETICULATE_PYTHON
+
+# rehash commands
+if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+    hash -r 2> /dev/null
+fi
+
+deactivate () {
+    deactivate_py "$@"
+    deactivate_r "$@"
+}
