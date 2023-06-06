@@ -92,4 +92,8 @@ fi
 deactivate () {
     deactivate_py "$@"
     deactivate_r "$@"
+    if [ ! "${1:-}" = "nondestructive" ] ; then
+    # Self destruct!
+        unset -f deactivate
+    fi
 }
