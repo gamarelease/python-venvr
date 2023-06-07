@@ -3,7 +3,7 @@ import re
 import subprocess as sub
 import sys
 from importlib.metadata import PackageNotFoundError, version
-from venv import CORE_VENV_DEPS, EnvBuilder
+from venv import EnvBuilder  # CORE_VENV_DEPS
 
 try:
     dist_name = __name__
@@ -176,7 +176,7 @@ def create(
     symlinks=False,
     with_pip=False,
     prompt=None,
-    upgrade_deps=False,
+    # upgrade_deps=False,
     convert_to_venvr=False,
     r_system_site_packages=False,
 ):
@@ -187,7 +187,7 @@ def create(
         symlinks=symlinks,
         with_pip=with_pip,
         prompt=prompt,
-        upgrade_deps=upgrade_deps,
+        # upgrade_deps=upgrade_deps,
         convert_to_venvr=convert_to_venvr,
         r_system_site_packages=r_system_site_packages,
     )
@@ -297,14 +297,14 @@ def main(args=None):
         "--prompt",
         help="Provides an alternative prompt prefix for " "this environment.",
     )
-    parser.add_argument(
-        "--upgrade-deps",
-        default=False,
-        action="store_true",
-        dest="upgrade_deps",
-        help="Upgrade core dependencies: {} to the latest "
-        "version in PyPI".format(" ".join(CORE_VENV_DEPS)),
-    )
+    # parser.add_argument(
+    #     "--upgrade-deps",
+    #     default=False,
+    #     action="store_true",
+    #     dest="upgrade_deps",
+    #     help="Upgrade core dependencies: {} to the latest "
+    #     "version in PyPI".format(" ".join(CORE_VENV_DEPS)),
+    # )
     options = parser.parse_args(args)
     err_msg = "you cannot supply --{} and --clear together."
     if options.convert and options.clear:
@@ -320,7 +320,7 @@ def main(args=None):
         upgrade=options.upgrade,
         with_pip=options.with_pip,
         prompt=options.prompt,
-        upgrade_deps=options.upgrade_deps,
+        # upgrade_deps=options.upgrade_deps,
     )
     for d in options.dirs:
         builder.create(d)
