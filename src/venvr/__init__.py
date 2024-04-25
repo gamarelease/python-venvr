@@ -236,7 +236,7 @@ def main(args=None):
         nargs="?",
         const="both",
         type=str.lower,
-        choices=["both", "python", "r"],
+        choices=["python", "r", "both", "none"],
         dest="system_site",
         help="Give the virtual environment access to the "
         "system site-packages dirs (case insensitive).",
