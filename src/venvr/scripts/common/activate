@@ -14,6 +14,16 @@ deactivate_r () {
         export R_ENVIRON
         unset _OLD_VIRTUAL_R_ENVIRON
     fi
+    if [ -n "${_OLD_VIRTUAL_R_ENVIRON_USER:-}" ] ; then
+        R_ENVIRON_USER="${_OLD_VIRTUAL_R_ENVIRON_USER:-}"
+        export R_ENVIRON_USER
+        unset _OLD_VIRTUAL_R_ENVIRON_USER
+    fi
+    if [ -n "${_OLD_VIRTUAL_R_PROFILE_USER:-}" ] ; then
+        R_PROFILE_USER="${_OLD_VIRTUAL_R_PROFILE_USER:-}"
+        export R_PROFILE_USER
+        unset _OLD_VIRTUAL_R_PROFILE_USER
+    fi
     if [ -n "${_OLD_VIRTUAL_R_LIBS_SITE:-}" ] ; then
         R_LIBS_SITE="${_OLD_VIRTUAL_R_LIBS_SITE:-}"
         export R_LIBS_SITE
@@ -51,6 +61,12 @@ fi
 if [ -n "${R_ENVIRON:-}" ] ; then
     _OLD_VIRTUAL_R_ENVIRON="$R_ENVIRON"
 fi
+if [ -n "${R_ENVIRON_USER:-}" ] ; then
+    _OLD_VIRTUAL_R_ENVIRON_USER="$R_ENVIRON_USER"
+fi
+if [ -n "${R_PROFILE_USER:-}" ] ; then
+    _OLD_VIRTUAL_R_PROFILE_USER="$R_PROFILE_USER"
+fi
 if [ -n "${R_LIBS_SITE:-}" ] ; then
     _OLD_VIRTUAL_R_LIBS_SITE="$R_LIBS_SITE"
 fi
@@ -64,6 +80,10 @@ fi
 # point reticulate and rpy2 to the correct binaries
 R_HOME="__VENVR_R_HOME__"
 RETICULATE_PYTHON="$VIRTUAL_ENV/__VENV_BIN_NAME__/__VENVR_PY_EXEC__"
+
+# point R config files to virtual environment
+R_ENVIRON_USER="$VIRTUAL_ENV/Renviron"
+R_PROFILE_USER="$VIRTUAL_ENV/Rprofile"
 
 # point R path variables to the local library
 r_libpath="$VIRTUAL_ENV/__VENVR_LIB_NAME__/R%v"
@@ -82,7 +102,8 @@ else
     export R_ENVIRON
 fi
 unset r_libpath
-export R_HOME R_LIBS_SITE R_LIBS_USER RETICULATE_PYTHON
+
+export R_HOME R_ENVIRON_USER R_PROFILE_USER R_LIBS_SITE R_LIBS_USER RETICULATE_PYTHON
 
 # rehash commands
 if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
